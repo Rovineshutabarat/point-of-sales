@@ -1,0 +1,610 @@
+"use client";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Check,
+  CheckCircle,
+  Clock,
+  Loader2,
+  Minus,
+  Plus,
+  QrCode,
+  SearchIcon,
+  ShoppingCart,
+  Trash2,
+  Wallet,
+  XCircle,
+} from "lucide-react";
+import React from "react";
+
+const Page = () => {
+  const [selectedCategory, setSelectedCategory] =
+    React.useState<string>("Sushi");
+  const [paymentMethod, setPaymentMethod] = React.useState<"cash" | "qris">(
+    "cash",
+  );
+  const [status, setStatus] = React.useState("new");
+  const statusOptions = [
+    {
+      value: "new",
+      label: "New",
+      color: "text-blue-600",
+      icon: <Clock className="w-4 h-4" />,
+    },
+    {
+      value: "pending",
+      label: "Pending",
+      color: "text-yellow-600",
+      icon: <Loader2 className="w-4 h-4 animate-spin" />,
+    },
+    {
+      value: "confirmed",
+      label: "Confirmed",
+      color: "text-green-600",
+      icon: <CheckCircle className="w-4 h-4" />,
+    },
+    {
+      value: "in_progress",
+      label: "In Progress",
+      color: "text-indigo-600",
+      icon: <Loader2 className="w-4 h-4 animate-spin" />,
+    },
+    {
+      value: "ready",
+      label: "Ready",
+      color: "text-teal-600",
+      icon: <CheckCircle className="w-4 h-4" />,
+    },
+    {
+      value: "served",
+      label: "Served",
+      color: "text-purple-600",
+      icon: <CheckCircle className="w-4 h-4" />,
+    },
+    {
+      value: "completed",
+      label: "Completed",
+      color: "text-green-800",
+      icon: <CheckCircle className="w-4 h-4" />,
+    },
+    {
+      value: "cancelled",
+      label: "Cancelled",
+      color: "text-red-600",
+      icon: <XCircle className="w-4 h-4" />,
+    },
+  ];
+  const [cartItems, setCartItems] = React.useState([
+    {
+      id: 1,
+      name: "Tuna Sushi",
+      variant: "Spicy",
+      price: 126000,
+      qty: 2,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ6NjNe6M9aU58GA2c-CF5Kocr65wLIT0Xug&s",
+    },
+    {
+      id: 2,
+      name: "Ketoprak",
+      variant: "Extra Peanut Sauce",
+      price: 56000,
+      qty: 1,
+      image: "https://assets.unileversolutions.com/recipes-v2/257832.jpg",
+    },
+  ]);
+
+  const categories = [
+    { name: "Drink", items: "72 items", icon: "🥤", color: "bg-emerald-500" },
+    { name: "Burger", items: "12 items", icon: "🍔", color: "bg-orange-500" },
+    { name: "Pizza", items: "15 items", icon: "🍕", color: "bg-red-500" },
+    { name: "Dessert", items: "5 items", icon: "🍰", color: "bg-pink-500" },
+    { name: "Salad", items: "8 items", icon: "🥗", color: "bg-lime-500" },
+    { name: "Spicy", items: "6 items", icon: "🌶️", color: "bg-rose-500" },
+    { name: "Sushi", items: "12 items", icon: "🍣", color: "bg-blue-500" },
+    { name: "Others", items: "12 items", icon: "🍽️", color: "bg-slate-500" },
+  ];
+
+  const orders = [
+    {
+      id: "T6",
+      name: "Mr. Willy",
+      items: "2 items",
+      status: "Ready",
+      statusColor: "bg-emerald-500",
+      details: "Ready to serve",
+      color: "bg-emerald-100",
+      textColor: "text-emerald-700",
+    },
+    {
+      id: "T10",
+      name: "Mr. Willy",
+      items: "2 items",
+      status: "Ready",
+      statusColor: "bg-emerald-500",
+      details: "Ready to serve",
+      color: "bg-emerald-100",
+      textColor: "text-emerald-700",
+    },
+    {
+      id: "T7",
+      name: "Mrs. Jane",
+      items: "2 items",
+      status: "Cooking",
+      statusColor: "bg-blue-500",
+      details: "In the kitchen",
+      color: "bg-blue-100",
+      textColor: "text-blue-700",
+    },
+    {
+      id: "T8",
+      name: "Mrs. Aishy",
+      items: "2 items",
+      status: "In progress",
+      statusColor: "bg-amber-500",
+      details: "In the kitchen",
+      color: "bg-amber-100",
+      textColor: "text-amber-700",
+    },
+    {
+      id: "T9",
+      name: "Mr. John",
+      items: "3 items",
+      status: "In progress",
+      statusColor: "bg-amber-500",
+      details: "Preparing",
+      color: "bg-amber-100",
+      textColor: "text-amber-700",
+    },
+  ];
+
+  const products = [
+    {
+      id: 1,
+      name: "Tuna Sushi",
+      category: "Seafood",
+      price: 126000,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ6NjNe6M9aU58GA2c-CF5Kocr65wLIT0Xug&s",
+      variants: ["Regular", "Spicy", "Extra Mayo"],
+    },
+    {
+      id: 11,
+      name: "Tuna Sushi",
+      category: "Seafood",
+      price: 126000,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ6NjNe6M9aU58GA2c-CF5Kocr65wLIT0Xug&s",
+      variants: ["Regular", "Spicy", "Extra Mayo"],
+    },
+    {
+      id: 2,
+      name: "Ketoprak",
+      category: "Vegetables",
+      price: 56000,
+      image: "https://assets.unileversolutions.com/recipes-v2/257832.jpg",
+      variants: ["Normal", "Extra Tofu", "Extra Peanut Sauce"],
+    },
+    {
+      id: 3,
+      name: "Siomay Ikan",
+      category: "Seafood",
+      price: 73000,
+      image:
+        "https://images.unsplash.com/photo-1617196034183-421b4917c8b6?q=80&w=400",
+      variants: ["Original", "Pedas", "Extra Telur"],
+    },
+    {
+      id: 4,
+      name: "California Roll",
+      category: "Seafood",
+      price: 98000,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ6NjNe6M9aU58GA2c-CF5Kocr65wLIT0Xug&s",
+      variants: ["Regular", "Premium", "Deluxe"],
+    },
+    {
+      id: 5,
+      name: "Salmon Sushi",
+      category: "Seafood",
+      price: 135000,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ6NjNe6M9aU58GA2c-CF5Kocr65wLIT0Xug&s",
+      variants: ["Regular", "Premium"],
+    },
+    {
+      id: 6,
+      name: "Gado Gado",
+      category: "Vegetables",
+      price: 45000,
+      image:
+        "https://images.unsplash.com/photo-1625399810647-6a06c574ea8f?q=80&w=400",
+      variants: ["Normal", "Extra Sauce"],
+    },
+  ];
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.qty,
+    0,
+  );
+  const tax = subtotal * 0.1;
+  const total = subtotal + tax;
+
+  const updateQty = (id: number, newQty: number) => {
+    if (newQty === 0) {
+      setCartItems(cartItems.filter((item) => item.id !== id));
+    } else {
+      setCartItems(
+        cartItems.map((item) =>
+          item.id === id ? { ...item, qty: newQty } : item,
+        ),
+      );
+    }
+  };
+
+  const removeItem = (id: number) => {
+    setCartItems(cartItems.filter((item) => item.id !== id));
+  };
+
+  const addToCart = (product: (typeof products)[0]) => {
+    const existingItem = cartItems.find((item) => item.id === product.id);
+    if (existingItem) {
+      updateQty(product.id, existingItem.qty + 1);
+    } else {
+      setCartItems([
+        ...cartItems,
+        {
+          id: product.id,
+          name: product.name,
+          variant: product.variants[0],
+          price: product.price,
+          qty: 1,
+          image: product.image,
+        },
+      ]);
+    }
+  };
+
+  return (
+    <div className="flex gap-x-5">
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              Active Orders
+            </h2>
+            <Select>
+              <SelectTrigger className="w-full max-w-xs shadow-2xl">
+                <SelectValue placeholder="Select order status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  {statusOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      <div className={`flex items-center gap-2 cursor-pointer`}>
+                        <span className="text-lg">{option.icon}</span>
+                        <span>{option.label}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <ScrollArea className="max-w-6xl pb-2 rounded-md whitespace-nowrap">
+            <div className="flex w-max gap-4">
+              {orders.map((order) => (
+                <div
+                  key={order.id}
+                  className="flex-shrink-0 bg-white border border-slate-200 rounded-xl p-4 hover:shadow-md transition-shadow min-w-80"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`${order.color} ${order.textColor} w-12 h-12 rounded-lg flex items-center justify-center font-bold text-lg shadow-sm`}
+                      >
+                        {order.id}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-slate-900">
+                          {order.name}
+                        </h3>
+                        <p className="text-xs text-slate-500">{order.items}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Badge
+                      className={`${order.statusColor} text-white text-xs px-3 py-1`}
+                    >
+                      <Check size={12} className="mr-1" />
+                      {order.status}
+                    </Badge>
+                    <span className="text-xs text-slate-500">
+                      {order.details}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+            Categories
+          </h2>
+          <ScrollArea className="max-w-6xl pb-2 rounded-md">
+            <div className="grid grid-flow-col auto-cols-[160px] gap-3">
+              {categories.map((cat) => (
+                <button
+                  key={cat.name}
+                  onClick={() => setSelectedCategory(cat.name)}
+                  className={`${cat.color} rounded-xl p-4 text-center text-white font-medium transition-all transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg ${
+                    selectedCategory === cat.name
+                      ? "ring-4 ring-blue-300 ring-offset-2"
+                      : ""
+                  }`}
+                >
+                  <div className="text-3xl mb-2">{cat.icon}</div>
+                  <p className="text-sm font-semibold truncate">{cat.name}</p>
+                  <p className="text-xs opacity-90 mt-1">{cat.items}</p>
+                </button>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              Menu
+            </h2>
+            <div className="relative shadow-2xl w-full max-w-sm">
+              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Input placeholder="Search Menu..." className="pl-10" />
+            </div>
+          </div>
+
+          <div className="max-w-6xl mx-auto w-full pb-2 rounded-md">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {products.map((p) => (
+                <div
+                  key={p.id}
+                  className="bg-white/80 backdrop-blur rounded-2xl p-4 shadow hover:shadow-lg transition-all"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-28 h-24 rounded-xl object-cover"
+                    />
+
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-slate-900 leading-tight truncate">
+                        {p.name}
+                      </p>
+                      <p className="text-sm text-slate-500">{p.category}</p>
+                      <p className="font-bold text-slate-900 mt-1">
+                        Rp {p.price.toLocaleString("id-ID")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-x-3 mt-4">
+                    <Select>
+                      <SelectTrigger
+                        className="w-full rounded-xl border border-slate-300 bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                "
+                      >
+                        <SelectValue placeholder="Select Variant" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Variant</SelectLabel>
+                          {p.variants.map((v) => (
+                            <SelectItem key={v} value={v}>
+                              {v}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+
+                    <button className="w-10 h-10 shrink-0 rounded-xl bg-blue-600 text-white text-lg font-semibold shadow-sm hover:bg-blue-700 active:scale-95 transition">
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <React.Fragment>
+        <div className="w-[25rem] sticky right-8 top-16 h-screen bg-white border-l border-slate-200 flex flex-col shadow-xl">
+          {/* Cart Header */}
+          <div className="border-b border-slate-200 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 flex-shrink-0">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                Checkout
+              </h2>
+              {cartItems.length > 0 && (
+                <Badge className="bg-blue-600 text-white px-3 py-1">
+                  {cartItems.length} item{cartItems.length !== 1 ? "s" : ""}
+                </Badge>
+              )}
+            </div>
+            <p className="text-sm text-slate-600">
+              Review your order before checkout
+            </p>
+          </div>
+
+          <div className="flex-1 overflow-hidden">
+            <ScrollArea className="h-full p-5">
+              <div className="space-y-3">
+                {cartItems.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-64 text-center">
+                    <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                      <ShoppingCart size={32} className="text-slate-400" />
+                    </div>
+                    <p className="text-slate-500 font-medium">Cart is empty</p>
+                    <p className="text-sm text-slate-400 mt-1">
+                      Add items to get started
+                    </p>
+                  </div>
+                ) : (
+                  cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:bg-slate-100 transition-colors"
+                    >
+                      <div className="flex gap-4">
+                        <img
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.name}
+                          className="w-20 h-20 rounded-lg object-cover flex-shrink-0 border border-slate-200"
+                        />
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <p className="font-bold text-slate-900 leading-tight">
+                                {item.name}
+                              </p>
+                              <p className="text-xs text-slate-500 mt-1">
+                                {item.variant}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => removeItem(item.id)}
+                              className="text-slate-400 hover:text-red-500 transition-colors flex-shrink-0 ml-2 p-1 hover:bg-red-50 rounded"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm font-bold text-blue-600">
+                              Rp {item.price.toLocaleString("id-ID")}
+                            </p>
+
+                            <div className="flex items-center gap-2 bg-white border border-slate-300 rounded-lg px-1 py-1">
+                              <button
+                                onClick={() => updateQty(item.id, item.qty - 1)}
+                                className="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-100 transition-colors text-slate-700"
+                              >
+                                <Minus size={14} />
+                              </button>
+                              <span className="text-sm font-bold text-slate-900 min-w-[24px] text-center">
+                                {item.qty}
+                              </span>
+                              <button
+                                onClick={() => updateQty(item.id, item.qty + 1)}
+                                className="w-7 h-7 flex items-center justify-center rounded hover:bg-slate-100 transition-colors text-slate-700"
+                              >
+                                <Plus size={14} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </ScrollArea>
+          </div>
+
+          {cartItems.length > 0 && (
+            <div className="border-t border-slate-200 p-6 space-y-4 bg-slate-50 flex-shrink-0">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Payment Method
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => setPaymentMethod("cash")}
+                    className={`
+                flex items-center justify-center gap-2 p-3 rounded-lg border-2 transition-all
+                ${
+                  paymentMethod === "cash"
+                    ? "border-blue-600 bg-blue-50 text-blue-700"
+                    : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
+                }
+              `}
+                  >
+                    <Wallet size={18} />
+                    <span className="font-semibold">Cash</span>
+                  </button>
+                  <button
+                    onClick={() => setPaymentMethod("qris")}
+                    className={`
+                flex items-center justify-center gap-2 p-3 rounded-lg border-2 transition-all
+                ${
+                  paymentMethod === "qris"
+                    ? "border-blue-600 bg-blue-50 text-blue-700"
+                    : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
+                }
+              `}
+                  >
+                    <QrCode size={18} />
+                    <span className="font-semibold">QRIS</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600">Subtotal</span>
+                  <span className="font-semibold text-slate-900">
+                    Rp {subtotal.toLocaleString("id-ID")}
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600">Tax (10%)</span>
+                  <span className="font-semibold text-slate-900">
+                    Rp {tax.toLocaleString("id-ID")}
+                  </span>
+                </div>
+
+                <div className="border-t border-slate-300 pt-2 flex justify-between items-center">
+                  <span className="font-bold text-slate-900">Total</span>
+                  <span className="text-xl font-bold text-blue-600">
+                    Rp {total.toLocaleString("id-ID")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <Button variant="destructive" className="flex-1 h-12">
+                  Cancel
+                </Button>
+                <Button className="flex-1 h-12">Process Payment</Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </React.Fragment>
+    </div>
+  );
+};
+
+export default Page;
